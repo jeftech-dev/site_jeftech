@@ -31,6 +31,24 @@ const urls = [
     priority: 1.0,
   },
   {
+    url: BASE_URL + '/services',
+    lastmod: TODAY,
+    changefreq: 'monthly',
+    priority: 0.9,
+  },
+  {
+    url: BASE_URL + '/concepts',
+    lastmod: TODAY,
+    changefreq: 'monthly',
+    priority: 0.7,
+  },
+  {
+    url: BASE_URL + '/contact',
+    lastmod: TODAY,
+    changefreq: 'monthly',
+    priority: 0.8,
+  },
+  {
     url: BASE_URL + '/blog',
     lastmod: TODAY,
     changefreq: 'weekly',

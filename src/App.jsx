@@ -1,51 +1,42 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
-import Navbar from './components/Navbar.jsx'
-import Hero from './sections/Hero.jsx'
-import Services from './sections/Services.jsx'
-import WhyUs from './sections/WhyUs.jsx'
-import Capabilities from './sections/Capabilities.jsx'
-import Portfolio from './sections/Portfolio.jsx'
-import Process from './sections/Process.jsx'
-import CtaBand from './sections/CtaBand.jsx'
-import Contact from './sections/Contact.jsx'
-import Booking from './sections/Booking.jsx'
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
+import { useEffect } from 'react'
+import SiteNav from './components/SiteNav.jsx'
+import SiteFooter from './components/SiteFooter.jsx'
+import Home from './pages/Home.jsx'
+import Services from './pages/Services.jsx'
+import Concepts from './pages/Concepts.jsx'
+import ContactPage from './pages/ContactPage.jsx'
 import Blog from './pages/Blog.jsx'
 import BlogPost from './pages/BlogPost.jsx'
 import NotFound from './pages/NotFound.jsx'
-import Footer from './components/Footer.jsx'
-import { useScrollToAnchor } from './hooks/useAnchorNavigation.jsx'
 
-function ScrollToAnchorHandler() {
-  useScrollToAnchor()
+function ScrollToTop() {
+  const { pathname } = useLocation()
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'auto' })
+  }, [pathname])
   return null
 }
 
 export default function App() {
   return (
     <BrowserRouter>
-      <Navbar />
-      <ScrollToAnchorHandler />
-      <main id="main">
-        <Routes>
-          <Route path="/" element={(
-            <>
-              <Hero />
-              <Services />
-              <WhyUs />
-              <Capabilities />
-              <Portfolio />
-              <Process />
-              <CtaBand />
-              <Booking />
-              <Contact />
-            </>
-          )} />
-          <Route path="/blog" element={<Blog />} />
-          <Route path="/blog/:slug" element={<BlogPost />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </main>
-      <Footer />
+      <ScrollToTop />
+      <div className="jt">
+        <SiteNav />
+        <main id="main">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/services" element={<Services />} />
+            <Route path="/concepts" element={<Concepts />} />
+            <Route path="/contact" element={<ContactPage />} />
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/blog/:slug" element={<BlogPost />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </main>
+        <SiteFooter />
+      </div>
     </BrowserRouter>
   )
 }

@@ -1,31 +1,28 @@
 import { Link } from 'react-router-dom'
-import { ArrowLeft, Home, Search } from 'lucide-react'
-import useReveal from '../hooks/useReveal.js'
+import { Home, Search } from 'lucide-react'
+import { CONTACT_EMAIL } from '../config.js'
 
 export default function NotFound() {
-  useReveal()
   return (
-    <section className="section-pad not-found" style={{ textAlign: 'center', minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <div className="container reveal">
-        <div style={{ fontSize: 'clamp(120px, 20vw, 200px)', fontWeight: 800, color: 'var(--blue)', lineHeight: 1, fontFamily: 'var(--display)', marginBottom: '16px' }}>
+    <section className="jt-section">
+      <div className="jt-article__wrap" style={{ textAlign: 'center', minHeight: '52vh', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+        <div style={{ fontFamily: 'var(--fd)', fontWeight: 700, fontSize: 'clamp(96px, 18vw, 180px)', lineHeight: 0.9, letterSpacing: '-0.04em', color: 'var(--brand)', marginBottom: 16 }}>
           404
         </div>
-        <h1 style={{ fontFamily: 'var(--display)', fontSize: 'clamp(28px, 4vw, 42px)', color: 'var(--navy)', marginBottom: '16px' }}>
-          Page introuvable
-        </h1>
-        <p style={{ color: 'var(--gray)', fontSize: '18px', maxWidth: '500px', margin: '0 auto 32px' }}>
+        <h1 className="jt-page-title" style={{ marginInline: 'auto' }}>Page introuvable</h1>
+        <p className="jt-lede" style={{ margin: '0 auto 32px', maxWidth: '46ch' }}>
           Cette page n'existe pas ou a été déplacée. Pas de souci, ça arrive aux meilleurs.
         </p>
-        <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
-          <Link to="/" className="btn btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+        <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap' }}>
+          <Link to="/" className="jt-btn jt-btn--ink">
             <Home size={18} strokeWidth={2} /> Retour à l'accueil
           </Link>
-          <Link to="/blog" className="btn btn-outline" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
-            <Search size={18} strokeWidth={2} /> Voir le blog
+          <Link to="/blog" className="jt-inline-link jt-inline-link--brand">
+            <Search size={16} strokeWidth={2} /> Voir le blog
           </Link>
         </div>
-        <p style={{ color: 'var(--gray-dim)', fontSize: '14px', marginTop: '24px' }}>
-          Besoin d'aide ? <a href="mailto:contact@jeftech.dev" style={{ color: 'var(--blue)', textDecoration: 'underline' }}>Écrivez-nous</a>
+        <p className="jt-note" style={{ marginTop: 24, whiteSpace: 'normal' }}>
+          Besoin d'aide ? <a href={`mailto:${CONTACT_EMAIL}`} style={{ textDecoration: 'underline' }}>Écrivez-nous</a>
         </p>
       </div>
     </section>
