@@ -1,8 +1,7 @@
 import { Link, useParams } from 'react-router-dom'
-import useReveal from '../hooks/useReveal.js'
-import { Calendar, Clock, ArrowLeft, Tag, Share2 } from 'lucide-react'
+import { ArrowLeft, Share2 } from 'lucide-react'
 import { BLOG_POSTS } from '../data/blog-posts.js'
-import { useAnchorNavigation } from '../hooks/useAnchorNavigation.jsx'
+import ContactBand from '../components/ContactBand.jsx'
 
 function formatDate(dateStr) {
   const date = new Date(dateStr)
@@ -341,16 +340,14 @@ function getPostContent(slug) {
 export default function BlogPost() {
   const { slug } = useParams()
   const post = BLOG_POSTS.find(p => p.slug === slug)
-  useReveal()
-  const { navigateToAnchor } = useAnchorNavigation()
 
   if (!post) {
     return (
-      <section className="section-pad" style={{ textAlign: 'center' }}>
-        <div className="container">
-          <h1>Article non trouvé</h1>
-          <p style={{ color: 'var(--gray)', marginTop: '16px' }}>Cet article n'existe pas ou a été déplacé.</p>
-          <Link to="/blog" className="btn btn-primary" style={{ marginTop: '24px', display: 'inline-block' }}>
+      <section className="jt-section">
+        <div className="jt-article__wrap" style={{ textAlign: 'center' }}>
+          <h1 className="jt-page-title">Article non trouvé</h1>
+          <p className="jt-lede" style={{ margin: '0 auto 24px' }}>Cet article n'existe pas ou a été déplacé.</p>
+          <Link to="/blog" className="jt-btn jt-btn--ink">
             <ArrowLeft size={16} strokeWidth={2} /> Retour au blog
           </Link>
         </div>
@@ -359,101 +356,72 @@ export default function BlogPost() {
   }
 
   const content = getPostContent(slug)
+  const shareUrl = `https://jeftech.dev/blog/${post.slug}`
 
   return (
-    <article className="section-pad blog-post-page" itemScope itemType="https://schema.org/BlogPosting">
-      <meta itemProp="headline" content={post.title} />
-      <meta itemProp="description" content={post.description} />
-      <meta itemProp="datePublished" content={post.date} />
-      <meta itemProp="author" content={post.author} />
-      <meta itemProp="articleSection" content={post.category} />
-      <meta itemProp="image" content={post.image} />
-      <meta itemProp="url" content={`https://jeftech.dev/blog/${post.slug}`} />
+    <>
+      <article className="jt-section" itemScope itemType="https://schema.org/BlogPosting">
+        <meta itemProp="headline" content={post.title} />
+        <meta itemProp="description" content={post.description} />
+        <meta itemProp="datePublished" content={post.date} />
+        <meta itemProp="author" content={post.author} />
+        <meta itemProp="articleSection" content={post.category} />
+        <meta itemProp="image" content={post.image} />
+        <meta itemProp="url" content={shareUrl} />
 
-      <div className="container" style={{ maxWidth: '800px' }}>
-        <Link to="/blog" className="blog-post__back-link" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', marginBottom: '32px', color: 'var(--blue)', fontWeight: 600 }}>
-          <ArrowLeft size={18} strokeWidth={2} /> Retour au blog
-        </Link>
+        <div className="jt-article__wrap">
+          <Link to="/blog" className="jt-article__back">
+            <ArrowLeft size={16} strokeWidth={2} /> Retour au blog
+          </Link>
 
-        <header className="blog-post__header reveal" style={{ marginBottom: '40px' }}>
-          <span className="blog-post__category" itemProp="articleSection">{post.category}</span>
-          <h1 className="blog-post__title" itemProp="headline" style={{ marginTop: '16px', marginBottom: '24px' }}>{post.title}</h1>
-          <div className="blog-post__meta" style={{ display: 'flex', flexWrap: 'wrap', gap: '24px', color: 'var(--gray)', fontSize: '15px' }}>
-            <time dateTime={post.date} itemProp="datePublished">
-              <Calendar size={16} strokeWidth={1.5} style={{ verticalAlign: 'middle', marginRight: '6px' }} /> {formatDate(post.date)}
-            </time>
-            <span itemProp="author" itemscope itemtype="https://schema.org/Person">
-              <span itemProp="name">{post.author}</span>
-            </span>
-            <span>
-              <Clock size={16} strokeWidth={1.5} style={{ verticalAlign: 'middle', marginRight: '6px' }} /> {post.readTime}
-            </span>
-          </div>
-        </header>
-
-        <div className="blog-post__image reveal" style={{ marginBottom: '40px', borderRadius: 'var(--radius)', overflow: 'hidden' }}>
-          <div
-            style={{
-              backgroundImage: `url(${post.image})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              height: '400px',
-              width: '100%',
-            }}
-            itemProp="image"
-            itemscope
-            itemtype="https://schema.org/ImageObject"
-          >
-            <meta itemProp="url" content={post.image} />
-            <meta itemProp="caption" content={post.title} />
-          </div>
-        </div>
-
-        <div className="blog-post__content reveal" 
-          itemProp="articleBody" 
-          dangerouslySetInnerHTML={{ __html: content }}
-          style={{ lineHeight: 1.8, fontSize: '17px', color: 'var(--text)' }}
-        />
-
-        <footer className="blog-post__footer reveal" style={{ marginTop: '60px', paddingTop: '32px', borderTop: '1px solid var(--card-border)' }}>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', marginBottom: '24px' }}>
-            {post.tags.map((tag) => (
-              <span key={tag} className="tech-tag" style={{ fontSize: '13px' }}>
-                <Tag size={12} strokeWidth={1.5} style={{ verticalAlign: 'middle', marginRight: '4px' }} /> {tag}
+          <header>
+            <span className="jt-eyebrow jt-article__cat" itemProp="articleSection">{post.category}</span>
+            <h1 className="jt-article__title" itemProp="headline">{post.title}</h1>
+            <div className="jt-article__meta">
+              <time dateTime={post.date} itemProp="datePublished">{formatDate(post.date)}</time>
+              <span itemProp="author" itemScope itemType="https://schema.org/Person">
+                <span itemProp="name">{post.author}</span>
               </span>
-            ))}
-          </div>
-          <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-            <span style={{ color: 'var(--gray)', fontSize: '14px' }}>Partager :</span>
-            <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=https://jeftech.dev/blog/${post.slug}`} target="_blank" rel="noopener noreferrer" aria-label="Partager sur X" style={{ color: 'var(--gray)', transition: 'color .2s' }} onMouseOver={e => e.target.style.color = '#1A56FF'} onMouseOut={e => e.target.style.color = 'var(--gray)'}>
-              <Share2 size={20} strokeWidth={1.8} />
-            </a>
-            <a href={`https://www.linkedin.com/sharing/share-offsite/?url=https://jeftech.dev/blog/${post.slug}`} target="_blank" rel="noopener noreferrer" aria-label="Partager sur LinkedIn" style={{ color: 'var(--gray)', transition: 'color .2s' }} onMouseOver={e => e.target.style.color = '#1A56FF'} onMouseOut={e => e.target.style.color = 'var(--gray)'}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 102.5 6 2.5 2.5 0 004.98 3.5zM3 8.98h4V21H3zM9 8.98h3.8v1.64h.05a4.16 4.16 0 013.75-2.06c4 0 4.75 2.64 4.75 6.06V21h-4v-5.36c0-1.28 0-2.92-1.78-2.92s-2.05 1.39-2.05 2.83V21H9z"/></svg>
-            </a>
-          </div>
-        </footer>
+              <span>{post.readTime}</span>
+            </div>
+          </header>
 
-        <div className="blog-post__cta reveal" style={{ marginTop: '60px', padding: '40px', background: 'var(--bg-alt)', borderRadius: 'var(--radius)', textAlign: 'center' }}>
-          <h3 style={{ fontFamily: 'var(--display)', fontSize: 'clamp(22px,3vw,28px)', marginBottom: '12px' }}>
-            Besoin d'accompagnement sur ce sujet ?
-          </h3>
-          <p style={{ color: 'var(--gray)', marginBottom: '24px', maxWidth: '500px', margin: '0 auto 24px' }}>
-            On en discute gratuitement. 30 min, sans engagement, conseils concrets.
-          </p>
-          <a
-            href="#booking"
-            className="btn btn-primary"
-            style={{ display: 'inline-block' }}
-            onClick={(e) => {
-              e.preventDefault()
-              navigateToAnchor('#booking')
-            }}
-          >
-            Réserver un appel
-          </a>
+          <div
+            className="jt-article__cover"
+            style={{ backgroundImage: `url(${post.image})` }}
+            role="img"
+            aria-label={post.title}
+            itemProp="image"
+          />
+
+          <div className="jt-prose" itemProp="articleBody" dangerouslySetInnerHTML={{ __html: content }} />
+
+          <footer className="jt-article__footer">
+            <div className="jt-article__tags">
+              {post.tags.map((tag) => (
+                <span key={tag} className="jt-tag">{tag}</span>
+              ))}
+            </div>
+            <div className="jt-share">
+              <span className="jt-share__label">Partager</span>
+              <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${shareUrl}`} target="_blank" rel="noopener noreferrer" aria-label="Partager sur X">
+                <Share2 size={19} strokeWidth={1.8} />
+              </a>
+              <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}`} target="_blank" rel="noopener noreferrer" aria-label="Partager sur LinkedIn">
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 102.5 6 2.5 2.5 0 004.98 3.5zM3 8.98h4V21H3zM9 8.98h3.8v1.64h.05a4.16 4.16 0 013.75-2.06c4 0 4.75 2.64 4.75 6.06V21h-4v-5.36c0-1.28 0-2.92-1.78-2.92s-2.05 1.39-2.05 2.83V21H9z" /></svg>
+              </a>
+            </div>
+
+            <div className="jt-article__cta">
+              <h3>Besoin d'accompagnement sur ce sujet ?</h3>
+              <p>On en discute gratuitement. 30 min, sans engagement, conseils concrets.</p>
+              <Link to="/contact" className="jt-btn jt-btn--brand">Réserver un appel</Link>
+            </div>
+          </footer>
         </div>
-      </div>
-    </article>
+      </article>
+
+      <ContactBand />
+    </>
   )
 }
