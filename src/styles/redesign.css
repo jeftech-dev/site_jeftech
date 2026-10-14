@@ -170,6 +170,9 @@ html, body { overflow-x: clip; }
   gap: 24px;
   min-height: 68px;
   flex-wrap: wrap;
+  /* Anchors the absolutely-positioned mobile panel (sticky parent does not
+     establish a containing block for it). */
+  position: relative;
 }
 .jt-brand { display: flex; align-items: center; gap: 11px; color: var(--ink); }
 .jt-brand__logo { width: 30px; height: 30px; object-fit: contain; display: block; }
@@ -211,6 +214,10 @@ html, body { overflow-x: clip; }
   white-space: nowrap;
 }
 
+/* Mobile nav toggle + dropdown panel (shown only at <=860px, see media block) */
+.jt-nav__toggle { display: none; background: none; border: 0; color: var(--ink); cursor: pointer; padding: 0; }
+.jt-mobilenav { display: none; }
+
 /* Section scaffolding ------------------------------------------------------ */
 .jt-section { border-bottom: 1px solid var(--line); }
 .jt-section--surface { background: var(--surface); }
@@ -223,12 +230,12 @@ html, body { overflow-x: clip; }
 
 .jt-split {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
   gap: clamp(28px, 4vw, 56px);
   align-items: start;
 }
 .jt-split__aside { min-width: 0; position: sticky; top: 92px; }
-.jt-split__body { min-width: 0; grid-column: span 2; }
+.jt-split__body { min-width: 0; }
 
 /* Hero --------------------------------------------------------------------- */
 .jt-hero {
@@ -361,7 +368,7 @@ html, body { overflow-x: clip; }
   max-width: 1240px; margin: 0 auto;
   padding: clamp(40px, 5.5vw, 76px) var(--pad);
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: clamp(28px, 4vw, 56px);
   align-items: start;
 }
@@ -371,7 +378,7 @@ html, body { overflow-x: clip; }
 
 /* Footer ------------------------------------------------------------------- */
 .jt-footer { background: var(--ink); color: var(--ground); }
-.jt-footer__grid { max-width: 1240px; margin: 0 auto; padding: clamp(36px, 4.5vw, 60px) var(--pad) 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: clamp(28px, 4vw, 48px); align-items: start; }
+.jt-footer__grid { max-width: 1240px; margin: 0 auto; padding: clamp(36px, 4.5vw, 60px) var(--pad) 0; display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr); gap: clamp(28px, 4vw, 48px); align-items: start; }
 .jt-footer__brand-row { display: flex; align-items: center; gap: 11px; margin-bottom: 14px; }
 .jt-footer__logo { width: 28px; height: 28px; background: #fff; padding: 2px; display: block; }
 .jt-footer__name { font-family: var(--fd), system-ui, sans-serif; font-weight: 700; font-size: 19px; letter-spacing: -0.02em; }
@@ -391,7 +398,7 @@ html, body { overflow-x: clip; }
   max-width: 1240px; margin: 0 auto;
   padding: clamp(32px, 4.5vw, 64px) var(--pad);
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
   gap: clamp(24px, 4vw, 52px);
   align-items: start;
 }
@@ -402,7 +409,7 @@ html, body { overflow-x: clip; }
 .jt-meta__k { display: block; font-family: var(--fm), monospace; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-40); margin-bottom: 3px; }
 .jt-meta__v { font-family: var(--fd), system-ui, sans-serif; font-weight: 600; font-size: 17px; }
 .jt-meta__v--small { font-family: var(--fb); font-weight: 400; font-size: 14.5px; color: var(--ink-60); }
-.jt-service__body { min-width: 0; grid-column: span 2; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: clamp(20px, 3vw, 40px); }
+.jt-service__body { min-width: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: clamp(20px, 3vw, 40px); }
 .jt-service__collabel { display: block; font-family: var(--fm), monospace; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink); padding-bottom: 10px; border-bottom: 1px solid var(--ink); margin-bottom: 4px; }
 .jt-service__list { margin: 0; padding: 0; list-style: none; }
 .jt-service__list li { font-size: 15px; padding: 11px 0; border-bottom: 1px solid var(--line); text-wrap: pretty; }
@@ -416,7 +423,7 @@ html, body { overflow-x: clip; }
   max-width: 1240px; margin: 0 auto;
   padding: clamp(32px, 4.5vw, 60px) var(--pad);
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: clamp(24px, 4vw, 48px);
   align-items: start;
 }
@@ -437,7 +444,7 @@ html, body { overflow-x: clip; }
   max-width: 1240px; margin: 0 auto;
   padding: clamp(36px, 5vw, 72px) var(--pad) clamp(30px, 4vw, 60px);
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: clamp(28px, 4vw, 56px);
   align-items: start;
 }
@@ -538,4 +545,106 @@ html, body { overflow-x: clip; }
 @media (prefers-reduced-motion: reduce) {
   .jt-h1 > span { animation: none; }
   .jt-door__arrow, .jt-plus { transition: none; }
+}
+
+/* ==========================================================================
+   Responsive — mobile & tablet. Desktop defaults above are left untouched.
+   ========================================================================== */
+
+/* Mobile / tablet: hamburger nav + single-column layouts ------------------- */
+@media (max-width: 860px) {
+  .jt-header__inner { flex-wrap: nowrap; }
+
+  /* Swap the inline nav for the hamburger toggle. */
+  .jt-nav { display: none; }
+  .jt-nav__toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  /* Dropdown panel anchored directly under the sticky header. */
+  .jt-mobilenav {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--ground);
+    border-bottom: 1px solid var(--line);
+    box-shadow: 0 16px 24px -18px rgba(14, 17, 22, .4);
+    z-index: 60;
+  }
+  .jt-mobilenav.is-open { display: flex; flex-direction: column; }
+  .jt-mobilenav__link {
+    font-family: var(--fm), monospace;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--ink);
+    padding: 15px var(--pad);
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    border-top: 1px solid var(--line);
+  }
+  .jt-mobilenav__link.is-active { color: var(--brand-d); }
+  .jt-mobilenav__cta {
+    font-family: var(--fm), monospace;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    background: var(--brand);
+    color: #fff;
+    text-align: center;
+    justify-content: center;
+    padding: 15px 20px;
+    margin: 12px var(--pad);
+    border-radius: var(--r);
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+  }
+  .jt a.jt-mobilenav__cta { color: #fff; }
+
+  /* Collapse every multi-column grid to a single column. */
+  .jt-split,
+  .jt-service__wrap,
+  .jt-service__body,
+  .jt-concept__wrap,
+  .jt-contact__wrap,
+  .jt-band__wrap,
+  .jt-footer__grid,
+  .jt-hero__grid,
+  .jt-guarantees { grid-template-columns: 1fr; }
+
+  /* Sticky asides make no sense once stacked. */
+  .jt-split__aside { position: static; top: auto; }
+
+  /* Form submit row: stack the button above the note, button full-width. */
+  .jt-form__submit-row { flex-direction: column; align-items: stretch; }
+  .jt-form__submit-row .jt-btn { width: 100%; justify-content: center; }
+}
+
+/* Small phones: final polish ----------------------------------------------- */
+@media (max-width: 480px) {
+  /* Hero CTA full-width so the button isn't cramped. */
+  .jt-hero__cta { width: 100%; }
+  .jt-hero__cta .jt-btn { width: 100%; justify-content: center; }
+
+  /* Stack key/value rows that otherwise collide on one line. */
+  .jt-contact__row,
+  .jt-sector { flex-direction: column; align-items: flex-start; gap: 4px; }
+  .jt-contact__v--small { text-align: left; }
+
+  /* Blog rows: single column, drop the trailing arrow for full-width titles. */
+  .jt-blogrow { grid-template-columns: 1fr; }
+  .jt-blogrow__arrow { display: none; }
+
+  /* Article prose: break long words, let wide tables scroll instead of overflow. */
+  .jt-prose { overflow-wrap: break-word; }
+  .jt-prose table { display: block; overflow-x: auto; }
 }
